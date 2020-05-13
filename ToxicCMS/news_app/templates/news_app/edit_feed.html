@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    {% with show_header=True %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+    {{ error_message }}
+    <form method='post'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+        <a href="{% url 'feed_news' %}">BACK</a>
+    </form>
+{% endblock %}

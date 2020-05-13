@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+    {% with show_header=True %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+    <form id="new_feed_form" data-newFeed-url="{% url 'create_feed' %}">
+        {% csrf_token %}
+        {{ new_feed_form.as_p }}
+        <button type="submit">Add Feed</button>
+    </form>
+    <hr>
+    <table id="feed_list">
+    {% for feed in feeds %}
+        {% include 'news_app/feed.html' with feed_id=feed.id title=feed.title content=feed.content date_created=feed.date_created author=feed.author %}
+    {% endfor %}
+    </table>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script type="application/javascript" src="{% static 'news_app/js/main.js' %}"></script>
+{% endblock %}

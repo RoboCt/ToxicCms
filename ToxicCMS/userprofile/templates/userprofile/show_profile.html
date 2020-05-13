@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    {% with show_header=True %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+    This is profile page
+{% endblock %}

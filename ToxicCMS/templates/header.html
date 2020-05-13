@@ -1,0 +1,30 @@
+<div class="navbar">
+    <div class="logo"><a href="{% url 'feed_news' %}">ToxicBook</a></div>
+    <div class="search_bar">
+        <form>
+        <input type="text" id="friend_search" data-find-url="{% url 'find_profile' %}" />
+                    <div class="popup_wrapper" id="profiles_found">
+            <ul id="profiles_list">
+            </ul>
+        </div>
+        </form>
+
+    </div>
+    <div class="menu_group">
+        <ul>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'feed_news' user.username %}">{{ user.username|title }}</a></li>
+            {% endif %}
+            <li><a href="{% url 'show_profile' user.id %}">Profile</a></li>
+            <li>Friends</li>
+            {% if user.is_authenticated %}
+                <li>
+                    <form id="logout_form" method="post" action="{% url 'user_logout' %}">
+                        {% csrf_token %}
+                        <a href="#" onclick="document.forms['logout_form'].submit();">Logout</a>
+                    </form>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>

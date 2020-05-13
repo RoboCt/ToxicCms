@@ -1,0 +1,16 @@
+    <tr id="feed_{{ feed_id }}">
+        <td>{{ title }}</td>
+        <td>{{ content }}</td>
+        <td>{{ date_created }}</td>
+        <td><a href="{% url 'show_profile' author.id %}">{{ author.username }}</a></td>
+        {% if user == author %}
+            <td>
+                <a href="{% url 'edit_feed' feed_id %}">EDIT</a>
+                <a href="{% url 'delete_feed' feed_id %}">REMOVE</a>
+{#                <form method="post" action="{% url 'delete_feed' feed_id %}">#}
+{#                    {% csrf_token %}#}
+{#                    <button type="submit">REMOVE</button>#}
+{#                </form>#}
+            </td>
+        {% endif %}
+    </tr>

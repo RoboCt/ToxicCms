@@ -1,0 +1,40 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Toxic-book</title>
+    <link type="text/css" rel="stylesheet" href="{% static "css/main.css" %}">
+    {% block custom_head %}
+    {% endblock %}
+</head>
+<body>
+<div class="content">
+    <div class="header">
+        {% block header %}
+            {% if show_header %}
+            <div>
+                {% include "header.html" %}
+            </div>
+            {% endif %}
+        {% endblock header %}
+    </div>
+    <div class="content_wrapper">
+        {% block content %}
+        {% endblock content %}
+    </div>
+<div class="footer">
+    {% block footer %}
+    {% endblock footer %}
+</div>
+</div>
+    <script
+      src="https://code.jquery.com/jquery-3.5.0.min.js"
+      integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static "js/main.js" %}"></script>
+{% block custom_scripts %}
+{% endblock %}
+</body>
+</html>

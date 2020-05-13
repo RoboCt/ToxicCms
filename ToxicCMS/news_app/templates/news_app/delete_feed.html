@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    {% with show_header=True %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+    {{ error_message }}
+    <form method='post' action="{% url 'delete_feed' feed.id %}">
+        {% csrf_token %}
+        <hr>
+        <div>{{ feed.title }}</div>
+        <div>{{ feed.content }}</div>
+        <hr>
+        <button type="submit">Delete</button>
+        <a href="{% url 'feed_news' %}">BACK</a>
+    </form>
+{% endblock %}

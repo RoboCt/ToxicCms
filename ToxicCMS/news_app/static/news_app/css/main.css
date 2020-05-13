@@ -1,0 +1,9 @@
+.form_wrapper {
+    margin: auto;
+    align-self: center;
+    background-color: #ff6a00;
+    padding: 20px 30px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
