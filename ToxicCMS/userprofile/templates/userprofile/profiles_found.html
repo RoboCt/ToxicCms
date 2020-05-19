@@ -1,0 +1,5 @@
+{% for profile in profiles %}
+    <li>
+        <a href="{% url 'feed_news' profile.username %}"><div>{{ profile.username }}</div></a>
+    </li>
+{% endfor %}

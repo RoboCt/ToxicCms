@@ -16,7 +16,7 @@
                 <li><a href="{% url 'feed_news' user.username %}">{{ user.username|title }}</a></li>
             {% endif %}
             <li><a href="{% url 'show_profile' user.id %}">Profile</a></li>
-            <li>Friends</li>
+            <li><a href="{% url 'friends_list' %}">Friends</a></li>
             {% if user.is_authenticated %}
                 <li>
                     <form id="logout_form" method="post" action="{% url 'user_logout' %}">

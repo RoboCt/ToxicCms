@@ -2,8 +2,8 @@
         <td>{{ title }}</td>
         <td>{{ content }}</td>
         <td>{{ date_created }}</td>
-        <td><a href="{% url 'show_profile' author.id %}">{{ author.username }}</a></td>
-        {% if user == author %}
+        <td><a href="{% url 'feed_news' author.user.username %}">{{ author.user.username }}</a></td>
+        {% if user == author.user %}
             <td>
                 <a href="{% url 'edit_feed' feed_id %}">EDIT</a>
                 <a href="{% url 'delete_feed' feed_id %}">REMOVE</a>

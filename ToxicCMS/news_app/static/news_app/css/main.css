@@ -7,3 +7,15 @@
     -moz-border-radius: 3px;
     border-radius: 3px;
 }
+
+.news_content {
+    display: flex;
+    flex-direction: row;
+}
+
+.thumbnail_profile {
+    width: 200px;
+    height: 200px;
+    background-color: orchid;
+    border: 1px solid crimson;
+}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block custom_head %}
+     <link type="text/css" rel="stylesheet" href="{% static "firends_app/css/main.css" %}">
+{% endblock %}
+
+{% block header %}
+    {% with show_header=True %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+    Friends list
+    <div>
+    {% for friend in friends %}
+        <div>{{ friend.friend.user.username }}</div>
+    {% if friend.status == 99 %}
+        <p>ITS ME</p>
+    {% elif friend.status == 1 %}
+        Request sent
+    {% elif friend.status == 2 %}
+    <form>
+        {% csrf_token %}
+        <button type="button" id="request_accept" data-friend-id="{{ friend.friend.id }}" data-request-url="{% url 'accept_friend' %}">Accept Friend</button>
+    </form>
+    {% elif friend.status == 3 %}
+        <a href="{% url 'remove_friend' friend.friend.id %}">Remove Friend</a>
+    {% else %}
+    <form>
+        {% csrf_token %}
+        <button type="button" id="request_friend" data-friend-id="{{ friend.friend.id }}" data-request-url="{% url 'request_friend' %}">Send Friend Request</button>
+    </form>
+    {% endif %}
+    {% endfor %}
+    </div>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script type="application/javascript" src="{% static 'firends_app/js/main.js' %}"></script>
+{% endblock %}
