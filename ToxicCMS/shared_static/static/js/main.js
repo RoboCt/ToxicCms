@@ -10,29 +10,14 @@ $(function() {
         $.ajax({
             url: search_box.attr("data-find-url"),
             type: "GET",
-            dataType: "json",
+            dataType: "html",
             data: {
                 search_value: search_value,
             },
             success: function (response) {
                 console.log(response);
-                showFoundProfiles(response);
+                profile_list.html(response);
             },
-        })
-    }
-
-    function showFoundProfiles(value) {
-        profile_list.html('');
-        value.forEach(p => {
-            let innerHtml = `
-                <li>
-                <a href="/${p.username}"><div>${p.username}</div></a>`;
-            if (p.isFriend) {
-                innerHtml += `<a href="wrap with form and make post"><div>+</div></a>`;
-                innerHtml += `</li>`;
-            }
-
-            profile_list.html(innerHtml);
         })
     }
 

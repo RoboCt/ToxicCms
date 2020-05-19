@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block custom_head %}
+     <link type="text/css" rel="stylesheet" href="{% static "news_app/css/main.css" %}">
+{% endblock %}
+
 {% block header %}
     {% with show_header=True %}
         {{ block.super }}
@@ -8,17 +12,49 @@
 {% endblock %}
 
 {% block content %}
+    {% if new_feed_visible %}
     <form id="new_feed_form" data-newFeed-url="{% url 'create_feed' %}">
         {% csrf_token %}
         {{ new_feed_form.as_p }}
         <button type="submit">Add Feed</button>
     </form>
+    {% endif %}
     <hr>
+    <div class="news_content">
+    {% if author %}
+    <div>
+        <div class="thumbnail_profile"></div>
+        <a href="{% url 'show_profile' author.id %}">{{ author.user.username }}</a>
+
+{% if friendship %}
+    {% if friendship.status == 1 %}
+        Request sent
+    {% elif friendship.status == 2 %}
+    <form>
+        {% csrf_token %}
+        <button type="button" id="request_accept" data-friend-id="{{ author.id }}" data-request-url="{% url 'accept_friend' %}">Accept Friend</button>
+    </form>
+    {% elif friendship.status == 3 %}
+        <a href="{% url 'remove_friend' author.id %}">Remove Friend</a>
+    {% else %}
+    <form>
+        {% csrf_token %}
+        <button type="button" id="request_friend" data-friend-id="{{ author.id }}" data-request-url="{% url 'request_friend' %}">Send Friend Request</button>
+    </form>
+    {% endif %}
+{% endif %}
+
+
+    </div>
+    {% endif %}
+    <div>
     <table id="feed_list">
     {% for feed in feeds %}
         {% include 'news_app/feed.html' with feed_id=feed.id title=feed.title content=feed.content date_created=feed.date_created author=feed.author %}
     {% endfor %}
     </table>
+    </div>
+    </div>
 {% endblock %}
 
 {% block custom_scripts %}

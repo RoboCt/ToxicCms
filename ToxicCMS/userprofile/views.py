@@ -2,10 +2,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.db.models import Q
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import FormView
 from django.contrib.auth.views import AuthenticationForm
+from firends_app.models import FriendsList
 from userprofile.forms import UserProfileForm
 from userprofile.models import Profile
 
@@ -47,22 +48,30 @@ def user_register(request):
 
 def find_profile(request):
     if request.is_ajax():
-        profile_data = []
+        profiles_data = []
         search_value = request.GET.get("search_value")
         if search_value != '':
             profiles = Profile.objects.filter(user__username__icontains=search_value)
-            friends = list(request.user.profile.friends.all())
             for profile in profiles:
-                is_friend = False
-                if profile in friends:
-                    is_friend = True
-                profile_data.append({"username": profile.user.username, "profileId": profile.id, "isFriend": is_friend})
+                profiles_data.append({'id': profile.id, 'username': profile.user.username})
 
-        return JsonResponse(data=profile_data, safe=False)
+        return render(request, 'userprofile/profiles_found.html', {"profiles": profiles_data})
 
 
+@login_required
 def show_profile(request, pk):
-    return render(request, 'userprofile/show_profile.html')
+    if request.user.profile.id == pk:
+        friend_profile = request.user.profile
+        friend_status = 99
+    else:
+        friend_profile = get_object_or_404(Profile, pk=pk)
+        try:
+            friend_request = FriendsList.objects.get(Q(person=request.user.profile) & Q(friend=friend_profile))
+            friend_status = friend_request.status
+        except FriendsList.DoesNotExist:
+            friend_status = 0
+
+    return render(request, 'userprofile/show_profile.html', {'profile': friend_profile, 'friendship_status': friend_status})
 
 
 def edit_profile(request):
